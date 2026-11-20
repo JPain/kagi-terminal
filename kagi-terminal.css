@@ -1,0 +1,470 @@
+/* =====================================================================
+   Kagi Terminal: a phosphor-green terminal theme for Kagi Search
+   https://github.com/JPain/kagi-terminal  (MIT)
+
+   Paste into Kagi: Settings > Appearance > Custom CSS.
+   If anything breaks, add &no_css to a search URL to see Kagi unstyled.
+
+   Most of the work is done by re-pointing Kagi's own colour variables,
+   so the theme covers widgets, menus and modals without chasing their
+   markup. Pick a palette below; everything else follows from it.
+   ===================================================================== */
+
+/* To use a bitmap-style web font instead of your system monospace,
+   uncomment the next line and put "VT323" first in --t-font below.
+   @import must stay at the very top of the file.                      */
+/* @import url("https://fonts.googleapis.com/css2?family=VT323&display=swap"); */
+
+:root {
+  /* ---- Palette: green phosphor (default) ---------------------------- */
+  --t-bg:     #000000;   /* screen                                       */
+  --t-panel:  #050d06;   /* raised surfaces: widgets, menus, modals      */
+  --t-line:   #1c4a24;   /* rules and borders                            */
+  --t-faint:  #2f7438;   /* placeholders, disabled                       */
+  --t-dim:    #4fa05b;   /* URLs, dates, visited links                   */
+  --t-text:   #8fe39a;   /* body text and snippets                       */
+  --t-bright: #39ff6a;   /* titles, headings, the prompt                 */
+  --t-alert:  #ffb000;   /* highlights and warnings (amber)              */
+  --t-danger: #ff5f56;
+
+  /* ---- Palette: amber phosphor. Uncomment to use instead. -----------
+  --t-bg: #000000; --t-panel: #0d0900; --t-line: #4a3300; --t-faint: #7a5500;
+  --t-dim: #b37d00; --t-text: #ffc966; --t-bright: #ffb000;
+  --t-alert: #ffe9b0; --t-danger: #ff5f56;
+  ---------------------------------------------------------------------- */
+
+  /* ---- Palette: white on black. Uncomment to use instead. -----------
+  --t-bg: #000000; --t-panel: #0c0c0c; --t-line: #333333; --t-faint: #5c5c5c;
+  --t-dim: #9a9a9a; --t-text: #d0d0d0; --t-bright: #ffffff;
+  --t-alert: #ffd75f; --t-danger: #ff5f56;
+  ---------------------------------------------------------------------- */
+
+  --t-font: ui-monospace, "JetBrains Mono", "Cascadia Mono", "SF Mono",
+            Menlo, Consolas, "DejaVu Sans Mono", "Liberation Mono", monospace;
+
+  /* ---- Effects. Set to the "off" value to disable. ------------------ */
+  --t-glow: 0 0 3px color-mix(in srgb, var(--t-bright) 45%, transparent); /* off: none */
+  --t-scanlines: 0.06;          /* off: 0                                */
+  --t-images: brightness(.85);  /* off: none. Full monochrome:
+                                   grayscale(1) sepia(1) hue-rotate(65deg) saturate(2.5) brightness(.8) */
+}
+
+/* ---------------------------------------------------------------------
+   1. Kagi's colour variables. Kagi sets these on its theme classes, so
+      they are re-set on the same classes; this wins whichever of Kagi's
+      Light, Dark, Moon Dark or Calm Blue themes is selected.
+   --------------------------------------------------------------------- */
+:root,
+.theme_light,
+.theme_dark,
+.theme_moon_dark,
+.theme_calm_blue,
+.theme_dark_conditional,
+.theme_moon_dark_conditional {
+  --color-scheme: dark;
+  color-scheme: dark;
+
+  --font-main: var(--t-font);
+  --font-lufga: var(--t-font);
+  --font-mono: var(--t-font);
+
+  /* Kagi's neutral ramps, all mapped onto the phosphor ramp */
+  --t-25:  var(--t-panel);
+  --t-50:  color-mix(in srgb, var(--t-line) 30%, var(--t-bg));
+  --t-70:  color-mix(in srgb, var(--t-line) 45%, var(--t-bg));
+  --t-100: color-mix(in srgb, var(--t-line) 65%, var(--t-bg));
+  --t-200: var(--t-line);
+  --t-300: color-mix(in srgb, var(--t-line) 50%, var(--t-faint));
+  --t-400: var(--t-faint);
+  --t-600: var(--t-dim);
+  --t-700: color-mix(in srgb, var(--t-dim) 50%, var(--t-text));
+  --t-800: var(--t-text);
+  --t-850: color-mix(in srgb, var(--t-text) 70%, var(--t-bright));
+  --t-900: color-mix(in srgb, var(--t-text) 40%, var(--t-bright));
+  --t-950: color-mix(in srgb, var(--t-text) 20%, var(--t-bright));
+
+  --primary-25:  var(--t-25);   --primary-50:  var(--t-50);
+  --primary-70:  var(--t-70);   --primary-100: var(--t-100);
+  --primary-200: var(--t-200);  --primary-300: var(--t-300);
+  --primary-400: var(--t-400);  --primary-600: var(--t-600);
+  --primary-700: var(--t-700);  --primary-800: var(--t-800);
+  --primary-850: var(--t-850);  --primary-900: var(--t-900);
+  --primary-950: var(--t-950);  --primary: var(--t-bright);
+  --secondary: var(--t-bg);
+
+  /* Some components use the raw ramps directly. In Kagi's dark themes
+     the chrome ramp runs light(25) to dark(1000), the opposite way
+     round to its primary ramp, so it is mapped in reverse. */
+  --chrome-25:  var(--t-950);  --chrome-50:  var(--t-900);
+  --chrome-70:  var(--t-850);  --chrome-100: var(--t-800);
+  --chrome-200: var(--t-700);  --chrome-300: var(--t-600);
+  --chrome-400: var(--t-400);  --chrome-600: var(--t-300);
+  --chrome-700: var(--t-200);  --chrome-800: var(--t-100);
+  --chrome-850: var(--t-70);   --chrome-900: var(--t-50);
+  --chrome-950: var(--t-25);   --chrome-1000: var(--t-bg);
+  --graphite-25:  var(--t-950);  --graphite-50:  var(--t-900);
+  --graphite-70:  var(--t-850);  --graphite-100: var(--t-800);
+  --graphite-200: var(--t-700);  --graphite-300: var(--t-600);
+  --graphite-400: var(--t-400);  --graphite-600: var(--t-300);
+  --graphite-700: var(--t-200);  --graphite-800: var(--t-100);
+  --graphite-850: var(--t-70);   --graphite-900: var(--t-50);
+  --graphite-950: var(--t-25);   --graphite-1000: var(--t-bg);
+  --graphite: var(--t-bg);
+
+  /* Kagi's purple accent becomes the phosphor colour */
+  --purple-300: var(--t-bright);
+  --purple-400: var(--t-bright);
+  --purple-500: var(--t-dim);
+  --purple-600: var(--t-text);
+  --purple-800: var(--t-faint);
+  --purple-900: var(--t-line);
+
+  --white: var(--t-bright);
+  --yellow: var(--t-alert);
+  --warning: var(--t-alert);
+  --danger: var(--t-danger);
+  --color-danger: var(--t-danger);
+  --accent-alert: var(--t-danger);
+  --info: var(--t-text);
+  --success: var(--t-bright);
+  --blue: var(--t-text);
+  --blue-300: var(--t-text);
+  --blue-600: var(--t-dim);
+  --accent-info: var(--t-text);
+  --accent-success: var(--t-bright);
+
+  /* Page and text */
+  --app-bg: var(--t-bg);
+  --app-frame-bg: var(--t-bg);
+  --landing-bg: var(--t-bg);
+  --app-text: var(--t-text);
+  --app-logo: var(--t-bright);
+  --link: var(--t-bright);
+  --inverted-link: var(--t-bg);
+  --kagi-highlight: var(--t-alert);
+  --bottom-bar-bg: var(--t-panel);
+  --modal-bg: var(--t-panel);
+  --modal-bg-secondary: var(--t-50);
+  --hover-bg: var(--t-100);
+  --hover-group-bg: var(--t-100);
+  --backdrop-bg: color-mix(in srgb, var(--t-bg) 80%, transparent);
+  --inner-shadow: transparent;
+  --box-shadow: transparent;
+  --box-shadow-15: transparent;
+  --focus-outline: 1px dashed var(--t-bright);
+  --gradient-base: var(--t-bg);
+  --gradient-overlay: none;
+  --gradient-strong: var(--t-bg);
+
+  /* Search box */
+  --input-bg: var(--t-bg);
+  --color-search-input: var(--t-bg);
+  --color-search-input-border: var(--t-dim);
+  --quick-search-bg: var(--t-bright);
+  --quick-search-icon: var(--t-bg);
+
+  /* Results */
+  --search-result-title: var(--t-bright);
+  --search-result-title-hover: var(--t-bg);
+  --search-result-content-text: var(--t-text);
+  --search-result-url-link: var(--t-dim);
+  --result-item-title-border: transparent;
+  --result-item-title-border_hover: transparent;
+  --result-item-title-visited-border: transparent;
+  --result-item-highlight: var(--t-alert);
+  --primary-hover: var(--t-bright);
+  --primary-hover-hover: var(--t-bright);
+  --primary-visited: var(--t-dim);
+  --search-result-date-bg: transparent;
+  --search-result-date-new-bg: transparent;
+  --search-result-date-new: var(--t-alert);
+  --m_sri_gap_color: var(--t-line);
+  --image_brightness: 100%;  /* dimming is done by --t-images */
+
+  /* Inline widgets, video, news */
+  --inline-header-title: var(--t-dim);
+  --inline-header-border: var(--t-line);
+  --inline-widget-bg: var(--t-panel);
+  --inline-widget-hover-bg: var(--t-100);
+  --inline-domain-tag-bg: var(--t-100);
+  --video-item-bg: var(--t-panel);
+  --widget-progress_bar: var(--t-bright);
+  --translate-fc_icon: var(--t-text);
+  --rating-star_background: var(--t-line);
+
+  /* Search-mode tab underlines (Web, Images, Videos, News, Podcasts, Maps) */
+  --nav_n_se_line: var(--t-bright);
+  --nav_n_im_line: var(--t-bright);
+  --nav_n_vi_line: var(--t-bright);
+  --nav_n_ne_line: var(--t-bright);
+  --nav_n_po_line: var(--t-bright);
+  --nav_n_ma_line: var(--t-bright);
+
+  /* Personalised-ranking icons: plain, except the warnings */
+  --domain-rank-icon-color-ban: var(--t-faint);
+  --domain-rank-icon-color-lower: var(--t-faint);
+  --domain-rank-icon-color-normal: var(--t-faint);
+  --domain-rank-icon-color-higher: var(--t-faint);
+  --domain-rank-icon-color-boosted: var(--t-faint);
+  --domain-rank-icon-color-trackers: var(--t-alert);
+  --domain-rank-icon-color-trackers-hover: var(--t-alert);
+  --domain-rank-icon-color-scam: var(--t-danger);
+  --domain-rank-icon-color-scam-hover: var(--t-danger);
+  --ranked-box-connection-insecure: var(--t-danger);
+  --ranked-box-tracker-desc-danger: var(--t-danger);
+  --ranked-box-tracker-desc-clear: var(--t-bright);
+
+  /* Buttons, toggles, tooltips, badges */
+  --btn-primary-bg: var(--t-bright);
+  --btn-primary-color: var(--t-bg);
+  --checkbox-bg: var(--t-bright);
+  --checkbox-check: var(--t-bg);
+  --k-tooltip-bg: var(--t-bright);
+  --k-tooltip-text: var(--t-bg);
+  --team-badge-bg: var(--t-bright);
+  --team-badge-text: var(--t-bg);
+  --not-found-bubble-bg: var(--t-panel);
+  --doggo-color-1: var(--t-text);
+
+  /* Code: phosphor shades, strings in amber */
+  --code-bg: var(--t-panel);
+  --code-border: var(--t-line);
+  --code-k: var(--t-bright);
+  --code-n: var(--t-text);
+  --code-p: var(--t-text);
+  --code-s: var(--t-alert);
+  --code-cm-c1: var(--t-faint);
+}
+
+/* ---------------------------------------------------------------------
+   2. The terminal look
+   --------------------------------------------------------------------- */
+html,
+body {
+  background: var(--t-bg);
+  color: var(--t-text);
+}
+
+body,
+input,
+textarea,
+select,
+button {
+  font-family: var(--t-font) !important;
+  font-variant-ligatures: none;
+}
+
+/* A screen has no rounded corners or drop shadows */
+*,
+*::before,
+*::after {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+::selection {
+  background: var(--t-bright);
+  color: var(--t-bg);
+  text-shadow: none;
+}
+
+/* Block caret, where the browser supports it */
+input,
+textarea,
+[contenteditable] {
+  caret-color: var(--t-bright);
+  caret-shape: block;
+}
+
+::placeholder {
+  color: var(--t-faint) !important;
+  opacity: 1;
+}
+
+:focus-visible {
+  outline: 1px dashed var(--t-bright) !important;
+  outline-offset: 2px;
+}
+
+/* Phosphor glow on the brightest text */
+h1, h2, h3,
+.__sri-title,
+.__sri_title_link,
+.app-logo {
+  text-shadow: var(--t-glow);
+}
+
+/* Logo and mascot drawn in phosphor */
+.app-logo svg,
+.logo_kagi svg,
+.logo_kagi_small svg,
+.logo svg {
+  color: var(--t-bright);
+  fill: var(--t-bright);
+}
+.doggo_sit_a svg {
+  filter: grayscale(1) brightness(1.3);
+  opacity: .7;
+}
+
+/* Photos and thumbnails a little dimmer, like a screen at night */
+img:not([src$=".svg"]) {
+  filter: var(--t-images);
+}
+
+/* Scanlines over everything; they never block clicks */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2147483647;
+  opacity: var(--t-scanlines);
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px,
+    #000 2px 3px
+  );
+}
+
+/* ---------------------------------------------------------------------
+   3. Search results
+   --------------------------------------------------------------------- */
+
+/* Titles: "> " prompt, no underline, inverse video on hover */
+.__sri-title .__sri_title_link,
+.__srgi-title a,
+.newsResultItem .newsResultHeader .newsResultTitle a._0_TITLE,
+.wikipediaResult a {
+  color: var(--t-bright);
+  border-bottom: none !important;
+  text-decoration: none;
+}
+.__sri-title .__sri_title_link::before,
+.__srgi-title a::before {
+  content: "> ";
+  color: var(--t-dim);
+  text-shadow: none;
+}
+.__sri-title .__sri_title_link:visited,
+.__srgi-title a:visited {
+  color: var(--t-dim);
+}
+.__sri-title .__sri_title_link:hover,
+.__srgi-title a:hover,
+.newsResultItem .newsResultHeader .newsResultTitle a._0_TITLE:hover {
+  background: var(--t-bright);
+  color: var(--t-bg) !important;
+  text-shadow: none;
+}
+.__sri-title .__sri_title_link:hover::before,
+.__srgi-title a:hover::before {
+  color: var(--t-bg);
+}
+
+/* Snippets */
+.__sri-desc,
+.sri-desc {
+  color: var(--t-text);
+}
+
+/* Dates read as plain dim text, new ones in amber */
+.__sri-time {
+  background: transparent !important;
+  color: var(--t-dim);
+}
+.__sri-time.--new {
+  color: var(--t-alert);
+}
+
+/* Highlighted query words: amber, not bold boxes */
+.search-result b,
+.search-result strong,
+.sri-group b,
+.sri-group strong {
+  color: var(--t-alert);
+  font-weight: inherit;
+}
+
+/* Results sit on the screen, separated by dashed rules */
+.search-result,
+.sri-group {
+  background: transparent !important;
+  border-bottom: 1px dashed var(--t-line) !important;
+}
+.instant-answer,
+.widgetContent,
+.newsResultItem,
+.videoResultItem,
+.podcast_result,
+.wikipedia_results,
+._0_results_summary_box,
+._0_result_page_summary {
+  background: var(--t-panel) !important;
+  border: 1px solid var(--t-line) !important;
+}
+
+/* ---------------------------------------------------------------------
+   4. Controls
+   --------------------------------------------------------------------- */
+input[type="search"],
+input[type="text"],
+textarea,
+select {
+  background: var(--t-bg);
+  color: var(--t-bright);
+}
+
+.btn.--primary,
+.btn.--yellow {
+  background: var(--t-bg) !important;
+  color: var(--t-bright) !important;
+  border: 1px solid var(--t-bright) !important;
+}
+.btn.--primary:hover,
+.btn.--yellow:hover {
+  background: var(--t-bright) !important;
+  color: var(--t-bg) !important;
+}
+
+.k_ui_toggle_switch.--enabled .k_ui_toggle_switch_bar,
+.k_ui_toggle_switch input:checked ~ .k_ui_toggle_switch_bar {
+  background: var(--t-bright) !important;
+}
+
+/* Menus and dropdowns: framed panels, inverse-video selection */
+.k_ui_dropdown_data_list,
+._0_more_search_box,
+.auto_suggestions {
+  background: var(--t-panel) !important;
+  border: 1px solid var(--t-dim) !important;
+}
+.k_ui_dropdown_data_list .list_items > *:hover,
+.k_ui_dropdown_data_list .list_items > .__hover,
+.auto_suggestions .auto_item.highlighted {
+  background: var(--t-bright) !important;
+  color: var(--t-bg) !important;
+}
+
+/* Scrollbars */
+* {
+  scrollbar-color: var(--t-faint) var(--t-bg);
+}
+
+/* ---------------------------------------------------------------------
+   5. Accessibility
+   --------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --t-glow: none;
+    --t-scanlines: 0;
+    --t-dim: var(--t-text);
+  }
+}
