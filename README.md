@@ -2,7 +2,7 @@
 
 DuckDuckGo's Terminal theme colours for [Kagi Search](https://kagi.com).
 
-![Kagi Terminal preview](screenshot.png)
+![Kagi Terminal preview](screenshot.webp)
 
 ## Install
 
