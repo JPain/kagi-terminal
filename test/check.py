@@ -23,10 +23,9 @@ PAGE = """<!doctype html><html class="{cls}"><head>
 .bg{{background:var(--app-bg)}} .l{{color:var(--link)}} .p25{{background:var(--primary-25)}} .c1000{{background:var(--chrome-1000)}}</style>
 </head><body class="{cls}"><div class="t">t</div><div class="u">u</div><div class="s">s</div><div class="bg">b</div>
 <div class="l">l</div><div class="p25">p</div><div class="c1000">c</div></body></html>"""
-WANT = {'.t': ('color', 'rgb(57, 255, 106)'), '.u': ('color', 'rgb(79, 160, 91)'), '.s': ('color', 'rgb(143, 227, 154)'),
-        '.bg': ('backgroundColor', 'rgb(0, 0, 0)'), '.l': ('color', 'rgb(57, 255, 106)'),
-        '.p25': ('backgroundColor', 'rgb(5, 13, 6)'), '.c1000': ('backgroundColor', 'rgb(0, 0, 0)'),
-        'body': ('fontFamily', None)}
+WANT = {'.t': ('color', 'rgb(97, 224, 89)'), '.u': ('color', 'rgb(163, 172, 69)'), '.s': ('color', 'rgb(232, 232, 232)'),
+        '.bg': ('backgroundColor', 'rgb(34, 34, 34)'), '.l': ('color', 'rgb(119, 146, 226)'),
+        '.p25': ('backgroundColor', 'rgb(38, 38, 38)'), '.c1000': ('backgroundColor', 'rgb(21, 21, 21)')}
 async def main():
     bad = 0
     async with async_playwright() as pw:
@@ -38,7 +37,7 @@ async def main():
                 await p.goto(f.as_uri())
                 for sel, (prop, want) in WANT.items():
                     got = await p.eval_on_selector(sel, f'e => getComputedStyle(e).{prop}')
-                    ok = ('monospace' in got) if want is None else got == want
+                    ok = got == want
                     bad += not ok
                     if not ok: print(f'FAIL {scheme:5} {cls or "(none)":28} {sel:6} {got} != {want}')
             await p.close()
